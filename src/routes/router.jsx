@@ -9,7 +9,6 @@ import Home from "../pages/Home"
 import Login from "../pages/Login"
 import Register from "../pages/Register"
 import Tasks from "../pages/Tasks"
-import Profile from "../pages/Profile"
 import AppBar from "../components/AppBar";
 import "../index.css";
 
