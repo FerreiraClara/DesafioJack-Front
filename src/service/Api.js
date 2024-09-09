@@ -1,5 +1,5 @@
 import axios from 'axios'
-const base_url = 'https://api-taskly.vercel.app/'
+const base_url = 'https://api-taskly.vercel.app'
 
 export async function Api(body, method, route) {
 try{
