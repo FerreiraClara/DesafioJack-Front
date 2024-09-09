@@ -19,7 +19,7 @@ const pages = [
 
   {
     label: 'Tarefas',
-    href: '/Task'
+    href: '/task'
   },
 
 ];
@@ -28,7 +28,7 @@ const settings = [
 
   {
     label: 'Logout',
-    href: '/Login'
+    href: '/login'
   },
 ];
 
