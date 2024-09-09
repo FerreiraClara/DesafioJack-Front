@@ -1,11 +1,14 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Card, CardContent, TextField, Button } from '@mui/material'
 import { Link } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 import '../App.css'
 
 function Home() {
-  const [count, setCount] = useState(0)
-
+  const navigate = useNavigate()
+useEffect(()=>{
+  if(!localStorage.getItem('token')) navigate('/login')
+},[])
   return (
     <>
       <div style={{ display: 'flex', justifyContent: 'center', gap: 50, minWidth: 300 }}>

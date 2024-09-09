@@ -19,19 +19,19 @@ const routers =[
     element: <Home/>,
   },
   {
-    path: "/Register",
+    path: "/register",
     element: <Register/>,
   },
   {
-    path: "/Login",
+    path: "/login",
     element: <Login/>,
   },
   {
-    path: "/Task",
+    path: "/task",
     element: <Tasks/>,
   },
   {
-    path: "/Profile",
+    path: "/profile",
     element: <Profile/>,
   },
 ];

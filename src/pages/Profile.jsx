@@ -3,6 +3,8 @@ import '../App.css';
 import ProfileModal from '../components/Profile.jsx'
 
 function Profile() {
+  const navigate = useNavigate()
+  if(!localStorage.getItem('token')) navigate('/login')
   const [count, setCount] = useState(0);
   const [user, setUser] = useState([])
   async function dataUser(){

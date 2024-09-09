@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Card, CardContent, TextField, Typography, Box, Button, Modal, IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
-
+import { Api } from '../service/Api';
 const style = {
     position: 'absolute',
     top: '50%',
@@ -14,29 +14,31 @@ const style = {
     p: 4,
 };
 
-export default function BasicModal() {
+export default function BasicModal(props) {
+    console.log(props)
     const [open, setOpen] = React.useState(false);
-    const [title, setTitle] = React.useState('')
-    const [description, setDescription] = React.useState('')
+    const [title, setTitle] = React.useState(props.task[1])
+    const [description, setDescription] = React.useState(props.task[2])
     const handleOpen = () => setOpen(true);
 
-    async function aditTask() {
+    async function editTask() {
         const editTask = {
-            title,
+            _id:props.task[0],
+            title: title || props.task[1],
             description
         }
-        await Api(editTask, 'POST', '/edittask').then({
-
+        await Api(editTask, 'POST', '/edit-task').then(()=>{
+            location.reload()
         })
     }
 
     function handleClose() {
-        setTitle('')
-        setDescription('')
-
         setOpen(false)
     }
-
+    React.useEffect(()=>{
+        setTitle(title)
+        setDescription(description)
+    },[title, description])
     return (
         <>
             <div style={{ display: "flex", justifyContent: "center" }}>
@@ -58,6 +60,9 @@ export default function BasicModal() {
                                 value={title}
                                 variant="standard"
                                 style={{ marginTop: 0 }}
+                                onChange={(e)=>{
+                                    setTitle(e.target.value)
+                                }}
                             />
                             <TextField
                                 id="desc-edittask-input"
@@ -66,11 +71,14 @@ export default function BasicModal() {
                                 value={description}
                                 variant="standard"
                                 style={{ marginTop: 0 }}
+                                onChange={(e)=>{
+                                    setDescription(e.target.value)
+                                }}
                             />
 
                             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 15 }}>
                                 <Button id="cancel-edittask-button" variant="contained" style={{ display: 'grid', marginBottom: 10, marginTop: 10, backgroundColor: '#ff3c5f', color: '#fff' }} onClick={handleClose}> Cancelar </Button>
-                                <Button id="save-edittask-button" variant="contained" style={{ display: 'grid', marginBottom: 10, marginTop: 10, backgroundColor: '#ff3c5f', color: '#fff' }}> Salvar </Button>
+                                <Button id="save-edittask-button" variant="contained" style={{ display: 'grid', marginBottom: 10, marginTop: 10, backgroundColor: '#ff3c5f', color: '#fff' }} onClick={editTask}> Salvar </Button>
                             </div>
 
                         </CardContent>

@@ -13,8 +13,8 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import logo from '../assets/logo.png'
-import { Link, useLocation } from 'react-router-dom'
-
+import { Link, useLocation,useNavigate } from 'react-router-dom'
+import {Api} from '../service/Api'
 const pages = [
 
   {
@@ -27,16 +27,13 @@ const pages = [
 const settings = [
 
   {
-    label: 'Profile',
-    href: '/Profile'
-  },
-  {
     label: 'Logout',
     href: '/Login'
   },
 ];
 
 function ResponsiveAppBar() {
+  const navigate = useNavigate()
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [showAppBar, setShowAppBar] = React.useState(true);
@@ -55,6 +52,12 @@ function ResponsiveAppBar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+  async function logout(){
+    setAnchorElUser(null);
+    await Api({},'POST','/logout')
+    localStorage.removeItem('token')
+    navigate('/login')
+  }
   React.useEffect(()=>{
     const isShowAppBar = !['/login', '/register'].includes(location.pathname?.toLowerCase())
     setShowAppBar(isShowAppBar)
@@ -165,11 +168,9 @@ function ResponsiveAppBar() {
                 onClose={handleCloseUserMenu}
               >
                 {settings.map((setting) => (
-                  <Link to={setting.href} style={{ textDecoration: 'none', color: '#000', fontFamily: "Oswald" }}>
-                  <MenuItem key={setting.label} onClick={handleCloseUserMenu}>
+                  <MenuItem key={setting.label} onClick={setting.label ? logout: handleCloseUserMenu}>
                     <Typography sx={{ textAlign: 'center' }}>{setting.label}</Typography>
                   </MenuItem>
-                  </Link>
                 ))}
               </Menu>
             </Box>

@@ -5,23 +5,24 @@ import '../App.css';
 import AddTask from '../components/AddTask'
 import EditTask from '../components/EditTask'
 import { Api } from '../service/Api';
-
-
+import { useNavigate } from 'react-router-dom';
 
 function Tasks() {
-  const [count, setCount] = useState(0);
+  const navigate = useNavigate()
+  if(!localStorage.getItem('token')) navigate('/login')
   const [task, setTasks] = useState([])
   const columns = [
     {
-      name: 'id',
+      name: '_id',
       label: 'ID',
       options: {
-        filter: true,
+        display:false,
+        filter: false,
         sort: true,
       }
     },
     {
-      name: 'titulo',
+      name: 'title',
       label: 'Título',
       options: {
         filter: true,
@@ -29,7 +30,7 @@ function Tasks() {
       }
     },
     {
-      name: 'descricao', label: 'Descrição', options: {
+      name: 'description', label: 'Descrição', options: {
         filter: true,
         sort: true,
       }
@@ -40,7 +41,7 @@ function Tasks() {
         filter: true,
         customBodyRender: (value, tableMeta, updateValue) => {
           return (
-            <EditTask props={tableMeta.row} />
+            <EditTask task={tableMeta.rowData} />
   
           );
         }
@@ -50,11 +51,25 @@ function Tasks() {
 
   const options = {
     filterType: 'checkbox',
+    textLabels: {
+      body: {
+        noMatch: "Nenhum registro correspondente encontrado", 
+      },
+    },
+    onRowsDelete: async (rowsDeleted, dataRows) => {
+      const idsToDelete = rowsDeleted.data.map((row)=> task[row.dataIndex]._id)
+      const body = {
+        _ids:idsToDelete
+      }
+      const response = await Api(idsToDelete, 'POST','/delete-tasks')
+      console.log(response)
+    }
   };
 
   async function searchTask(){
     const response = await Api({},'GET','/get-tasks')
-    setTasks(response)
+    console.log(response)
+    setTasks(response.response)
   }
 
   useEffect(()=>{

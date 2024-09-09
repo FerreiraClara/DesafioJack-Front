@@ -5,6 +5,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Link } from 'react-router-dom'
 import '../App.css'
 import { Api } from '../service/Api'
+import { useNavigate } from 'react-router-dom';
 function Register() {
   const [count, setCount] = useState(0)
   const [name, setName] = useState('')
@@ -14,20 +15,22 @@ function Register() {
   const [isValidForm, setIsValidForm] = useState(false)
   const [isValidPassword, setIsValidPassword] = useState(false)
   const [isValidEmail, setIsValidEmail] = useState(true);
-
+  const navigate = useNavigate()
   const [showPassword, setShowPassword] = React.useState(false);
 
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  function handleClickShowPassword (){
+    setShowPassword((show) => !show);
+  }
 
-  const handleMouseDownPassword = (event) => {
+  function handleMouseDownPassword (event) {
     event.preventDefault();
   };
 
-  const handleMouseUpPassword = (event) => {
+  function handleMouseUpPassword (event) {
     event.preventDefault();
   };
 
-  async function cadastrop() {
+  async function registerPerson() {
     
     if(!(name,email,password,confirmPassword)) return
 
@@ -37,9 +40,10 @@ function Register() {
       password,
       confirmPassword
     }
-    await Api(newPerson, "POST", '/registerperson').then({
-      
+    await Api(newPerson, "POST", '/register-person').then(()=>{
+      navigate('/login')
     })
+  
   }
 
   function validateEmail(email) {
@@ -144,7 +148,7 @@ function Register() {
               }}
             />
           </FormControl>
-            <Button disabled={!isValidForm} onClick={cadastrop} id='continue-register-button' variant="contained"
+            <Button disabled={!isValidForm} onClick={registerPerson} id='continue-register-button' variant="contained"
               style={{ display: 'grid', float: 'right', marginBottom: 10, marginTop: 10, backgroundColor: !isValidForm?"#c5c5c5":'#ff3c5f', color: "#fff" }}>
               Continuar
             </Button>
