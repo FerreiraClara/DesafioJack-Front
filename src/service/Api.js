@@ -8,9 +8,8 @@ try{
         method: method,
         url: `${base_url}${route}`,
         headers: {
-            'Access-Control-Allow-Origin': '*',
             'rejectUnauthorized': false,
-            'authorization':token
+            'Authorization':token
         },
         data: body,
     }
