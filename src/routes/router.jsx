@@ -28,11 +28,7 @@ const routers =[
   {
     path: "/task",
     element: <Tasks/>,
-  },
-  {
-    path: "/profile",
-    element: <Profile/>,
-  },
+  }
 ];
 
 export default function Router(){
