@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Card, CardContent, TextField, Typography, Box, Button, Modal } from '@mui/material';
 import { Api } from '../service/Api'
-import { useLocation } from 'react-router-dom';
 
 const style = {
     position: 'absolute',
@@ -20,7 +19,6 @@ export default function BasicModal() {
     const [title, setTitle] = React.useState('');
     const [description, setDescription] = React.useState('');
     const [isValidTask, setIsValidTask] = React.useState(false)
-    const locate = useLocation()
     const handleOpen = () => setOpen(true);
 
     async function addTask() {
@@ -29,7 +27,7 @@ export default function BasicModal() {
             description
         }
         await Api(newTask, 'POST', '/create-task').then(()=>{
-            locate.refresh()
+            location.reload()
         })
     }
 
